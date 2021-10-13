@@ -1,5 +1,11 @@
+import Landing from "./components/landing/landing";
+
 const App = () => {
-  return <>project</>;
+  return (
+    <>
+      <Landing />
+    </>
+  );
 };
 
 export default App;
