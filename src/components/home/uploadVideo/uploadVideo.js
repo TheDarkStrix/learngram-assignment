@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { Row, Col, FormGroup, Label, Input, Progress } from "reactstrap";
 import axios from "axios";
 import urls from "../../shared/urls";
+import wrong from "../../../assets/images/close.svg";
 
 const UploadVideo = ({ refetch }) => {
   const hiddenFileInput = useRef(null);
@@ -28,8 +29,10 @@ const UploadVideo = ({ refetch }) => {
     }
   };
 
-  const removeVideo = () => {
+  const removeVideo = (e) => {
+    e.stopPropagation();
     setCurrentFileUpload(null);
+    setProgress(null);
   };
 
   const handleVideoUpload = async () => {
@@ -59,45 +62,51 @@ const UploadVideo = ({ refetch }) => {
   return (
     <div className={style.uploadContainer}>
       <Row>
-        <Col md={8}>
+        <Col md={9}>
           <FormGroup>
-            <div onClick={() => handleUploadClick()}>
-              {!error
-                ? currentFileUpload
-                  ? currentFileUpload.name
-                  : "Choose"
-                : error
-                ? error
-                : ""}
+            <div className={style.uploader} onClick={() => handleUploadClick()}>
+              <div>
+                {!error
+                  ? currentFileUpload
+                    ? currentFileUpload.name
+                    : "Choose"
+                  : error
+                  ? error
+                  : ""}
+              </div>
+              <Input
+                innerRef={hiddenFileInput}
+                type="file"
+                name="upload"
+                id="upload"
+                accept="video/*"
+                placeholder="with a placeholder"
+                onChange={handleChange}
+                style={{ display: "none" }}
+              />
+              {currentFileUpload ? (
+                <div onClick={(e) => removeVideo(e)} className={style.cancel}>
+                  <img src={wrong} alt="cancel_icon" />
+                </div>
+              ) : (
+                ""
+              )}
             </div>
-            <Input
-              innerRef={hiddenFileInput}
-              type="file"
-              name="upload"
-              id="upload"
-              accept="video/*"
-              placeholder="with a placeholder"
-              onChange={handleChange}
-              style={{ display: "none" }}
-            />
-            {currentFileUpload ? (
-              <div onClick={() => removeVideo()}>X</div>
-            ) : (
-              ""
-            )}
           </FormGroup>
-          {progress && (
-            <Progress value={progress}>
-              {progress !== 100 ? `${progress}%` : "Completed"}
-            </Progress>
-          )}
         </Col>
-        <Col md={4}>
+        <Col md={3}>
           <button className={style.blueBtn} onClick={() => handleVideoUpload()}>
             Upload lecture
           </button>
         </Col>
       </Row>
+      {progress && (
+        <div className="my-3">
+          <Progress value={progress}>
+            {progress !== 100 ? `${progress}%` : "Completed"}
+          </Progress>
+        </div>
+      )}
     </div>
   );
 };

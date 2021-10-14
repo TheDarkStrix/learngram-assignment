@@ -12,11 +12,13 @@ import {
 import play from "../../../assets/images/play.svg";
 import search from "../../../assets/images/search.svg";
 import style from "./videoList.module.css";
+import { useFirstRender } from "../../shared/hooks/onlyOnce";
 const VideoList = ({ videos }) => {
   const [currentVideo, setCurrentVideo] = useState({
     location: videos[0].location,
     name: videos[0].fileName,
   });
+  const firstRender = useFirstRender();
   const [searchText, setSearchText] = useState("");
 
   const videoRef = useRef();
@@ -30,7 +32,10 @@ const VideoList = ({ videos }) => {
 
   useEffect(() => {
     console.log("video was updated");
-    if (videoRef.current) videoRef.current.load();
+    if (!firstRender && videoRef.current && currentVideo) {
+      videoRef.current.load();
+      videoRef.current.scrollIntoView();
+    }
   }, [currentVideo]);
 
   return (
@@ -38,18 +43,18 @@ const VideoList = ({ videos }) => {
       <div>
         {currentVideo ? (
           <div>
-            <video width="400" controls ref={videoRef}>
+            <video width="100%" controls ref={videoRef}>
               {console.log(currentVideo.location)}
               <source src={currentVideo.location} />
             </video>
-            <div>{currentVideo.name}</div>
+            <div className={style.currentLectureName}>{currentVideo.name}</div>
           </div>
         ) : (
           ""
         )}
       </div>
 
-      <div>
+      <div className={style.searchContainer}>
         <InputGroup>
           <Input
             placeholder="Search"
@@ -58,7 +63,12 @@ const VideoList = ({ videos }) => {
           />
           <InputGroupAddon addonType="append">
             <InputGroupText className={style.groupText}>
-              <img src={search} alt="search_icon" />
+              <img
+                width="20"
+                className={style.searchIcon}
+                src={search}
+                alt="search_icon"
+              />
             </InputGroupText>
           </InputGroupAddon>
         </InputGroup>
@@ -77,7 +87,7 @@ const VideoList = ({ videos }) => {
               <Col
                 md="6"
                 key={data._id}
-                className="d-flex justify-content-center"
+                className="d-flex justify-content-center p-0"
               >
                 <div
                   className={style.videoCard}

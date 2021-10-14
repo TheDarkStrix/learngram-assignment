@@ -102,7 +102,7 @@ const SignUp = () => {
             placeholder="Enter email id"
             onChange={formik.handleChange}
             value={formik.values.email}
-            invalid={formik.errors.email}
+            invalid={formik.errors.email && formik.touched.email}
           />
         </FormGroup>
         <FormGroup className="mb-3">
@@ -114,7 +114,7 @@ const SignUp = () => {
             placeholder="Enter password"
             onChange={formik.handleChange}
             value={formik.values.password}
-            invalid={formik.errors.password}
+            invalid={formik.errors.password && formik.touched.password}
           />
         </FormGroup>
         {currentStage === 1 ? (
@@ -127,7 +127,7 @@ const SignUp = () => {
               placeholder="Enter OTP"
               onChange={formik.handleChange}
               value={formik.values.otp}
-              invalid={formik.errors.otp}
+              invalid={formik.errors.otp && formik.touched.otp}
             />
           </FormGroup>
         ) : (

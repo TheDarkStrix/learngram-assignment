@@ -29,10 +29,32 @@
   border-bottom: 1px solid var(--darkBlue) !important;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  padding: 10px;
 }
 
 .searchInput {
   border-right: 0 !important;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.searchInput:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: var(--blue) !important;
+}
+
+.currentLectureName {
+  font-size: 1.4em;
+  color: var(--blue);
+  font-weight: 600;
+  margin-top: 0.2em;
+}
+
+.searchContainer {
+  margin: 3em 0;
+}
+
+.searchIcon {
+  max-width: 100%;
 }

@@ -4,6 +4,7 @@ import VideoList from "./videoList/videoList";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import urls from "../shared/urls";
+import style from "./home.module.css";
 
 const Home = () => {
   const [videos, setVideos] = useState(null);
@@ -27,7 +28,7 @@ const Home = () => {
   return (
     <>
       <NavBar />
-      <div className="container">
+      <div className={["container", style.mainContent].join(" ")}>
         <UploadVideo refetch={fetchAllVideos} />
         {videos ? <VideoList videos={videos} /> : ""}
       </div>

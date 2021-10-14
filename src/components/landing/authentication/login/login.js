@@ -64,7 +64,7 @@ const Login = () => {
   };
 
   return (
-    <>
+    <div className={style.loginContainer}>
       <Form onSubmit={formik.handleSubmit}>
         <FormGroup className="mb-3">
           <Label for="exampleEmail">Email</Label>
@@ -75,7 +75,7 @@ const Login = () => {
             placeholder="Enter email id"
             onChange={formik.handleChange}
             value={formik.values.email}
-            invalid={formik.errors.email}
+            invalid={formik.errors.email && formik.touched.email}
           />
         </FormGroup>
         <FormGroup className="mb-3">
@@ -87,7 +87,7 @@ const Login = () => {
             placeholder="Enter password"
             onChange={formik.handleChange}
             value={formik.values.password}
-            invalid={formik.errors.password}
+            invalid={formik.errors.password && formik.touched.password}
           />
         </FormGroup>
         <div className="d-flex justify-content-center">
@@ -96,7 +96,7 @@ const Login = () => {
           </button>
         </div>
       </Form>
-    </>
+    </div>
   );
 };
 
