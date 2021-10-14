@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import urls from "../../shared/urls";
 import {
   Col,
@@ -17,6 +17,8 @@ const VideoList = () => {
   const [currentVideo, setCurrentVideo] = useState(null);
   const [searchText, setSearchText] = useState("");
 
+  const videoRef = useRef();
+
   const fetchAllVideos = async () => {
     try {
       const res = await axios.get(urls.video.all);
@@ -24,7 +26,7 @@ const VideoList = () => {
         setVideos(res.data.videos);
         setCurrentVideo({
           location: res.data.videos[0].location,
-          name: res.data.videos[0].name,
+          name: res.data.videos[0].fileName,
         });
         console.log(res.data.videos);
       }
@@ -46,15 +48,20 @@ const VideoList = () => {
 
   useEffect(() => {
     console.log("video was updated");
+    if (videoRef.current) videoRef.current.load();
   }, [currentVideo]);
 
   return (
     <>
       <div>
         {currentVideo ? (
-          <video width="400" controls>
-            <source src={currentVideo.location} />
-          </video>
+          <div>
+            <video width="400" controls ref={videoRef}>
+              {console.log(currentVideo.location)}
+              <source src={currentVideo.location} />
+            </video>
+            <div>{currentVideo.name}</div>
+          </div>
         ) : (
           ""
         )}
