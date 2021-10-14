@@ -4,6 +4,7 @@ import { Row, Col, FormGroup, Label, Input, Progress } from "reactstrap";
 import axios from "axios";
 import urls from "../../shared/urls";
 import wrong from "../../../assets/images/close.svg";
+import { toast } from "react-toastify";
 
 const UploadVideo = ({ refetch }) => {
   const hiddenFileInput = useRef(null);
@@ -24,6 +25,7 @@ const UploadVideo = ({ refetch }) => {
     );
     if ((event.target.files[0].size / 1048576).toFixed(2) > 1000) {
       setError("Please choose video less than 1000MB");
+      toast.error("Please choose video less than 1000MB");
     } else {
       setCurrentFileUpload(event.target.files[0]);
     }
@@ -52,10 +54,15 @@ const UploadVideo = ({ refetch }) => {
       });
       if (res.data) {
         console.log(res.data);
+        toast.success("Uploaded Successfully !");
         refetch();
       }
     } catch (error) {
-      setError(error?.response?.data?.message);
+      if (error && error.response.data) {
+        setError(error?.response?.data?.message);
+        console.log(error.response.data.message);
+        toast.error(error.response.data.message);
+      }
     }
   };
 

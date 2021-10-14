@@ -7,6 +7,7 @@ import style from "./login.module.css";
 import { saveAuthInfo } from "../../../shared/helpers";
 import { useHistory } from "react-router";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const history = useHistory();
@@ -54,12 +55,15 @@ const Login = () => {
             return asyncCookieStorage.getItem("auth");
           })
           .then(function (value) {
-            console.log("Value has been set to:", value);
+            toast.success("Login successfull , Redirecting ...!");
             window.location.href = "/";
           });
       }
     } catch (error) {
-      console.log(error);
+      if (error && error.response.data) {
+        console.log(error.response.data.message);
+        toast.error(error.response.data.message);
+      }
     }
   };
 

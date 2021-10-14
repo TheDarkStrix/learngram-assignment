@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import urls from "../shared/urls";
 import style from "./home.module.css";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [videos, setVideos] = useState(null);
@@ -18,6 +19,10 @@ const Home = () => {
       }
     } catch (error) {
       console.log(error);
+      if (error && error.response.data) {
+        console.log(error.response.data.message);
+        toast.error(error.response.data.message);
+      }
     }
   };
 
@@ -30,7 +35,11 @@ const Home = () => {
       <NavBar />
       <div className={["container", style.mainContent].join(" ")}>
         <UploadVideo refetch={fetchAllVideos} />
-        {videos ? <VideoList videos={videos} /> : ""}
+        {videos ? (
+          <VideoList videos={videos} />
+        ) : (
+          <div className="text-center">Loading...</div>
+        )}
       </div>
     </>
   );

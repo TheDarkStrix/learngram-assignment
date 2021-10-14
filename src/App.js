@@ -4,6 +4,8 @@ import { getAuthInfo } from "./components/shared/helpers";
 import { BASE_URL } from "./components/shared/constants";
 import { BrowserRouter, Route } from "react-router-dom";
 import ProtectedRoute from "./components/layout/projectedRoutes";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from "./components/home/home";
 const App = () => {
   Axios.defaults.baseURL = `${BASE_URL}`;
@@ -43,6 +45,16 @@ const App = () => {
         <Route exact path="/landing" component={Landing} />
         <ProtectedRoute exact path="/" component={Home} />
       </BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={7000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+      />
     </>
   );
 };

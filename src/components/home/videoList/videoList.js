@@ -14,10 +14,14 @@ import search from "../../../assets/images/search.svg";
 import style from "./videoList.module.css";
 import { useFirstRender } from "../../shared/hooks/onlyOnce";
 const VideoList = ({ videos }) => {
-  const [currentVideo, setCurrentVideo] = useState({
-    location: videos[0].location,
-    name: videos[0].fileName,
-  });
+  const [currentVideo, setCurrentVideo] = useState(
+    videos.length > 0
+      ? {
+          location: videos[0].location,
+          name: videos[0].fileName,
+        }
+      : null
+  );
   const firstRender = useFirstRender();
   const [searchText, setSearchText] = useState("");
 
@@ -54,7 +58,11 @@ const VideoList = ({ videos }) => {
         )}
       </div>
 
-      <div className={style.searchContainer}>
+      
+
+      {videos && videos.length > 0 ? (
+<>
+        <div className={style.searchContainer}>
         <InputGroup>
           <Input
             placeholder="Search"
@@ -74,38 +82,42 @@ const VideoList = ({ videos }) => {
         </InputGroup>
       </div>
 
-      <Row>
-        {videos &&
-          videos
-            .filter((item) => {
-              if (!searchText) return true;
-              if (item.fileName.toLowerCase().includes(searchText)) {
-                return true;
-              }
-            })
-            .map((data) => (
-              <Col
-                md="6"
-                key={data._id}
-                className="d-flex justify-content-center p-0"
-              >
-                <div
-                  className={style.videoCard}
-                  onClick={() =>
-                    handleCurrentVideo({
-                      location: data.location,
-                      name: data.fileName,
-                    })
-                  }
+        <Row>
+          {videos &&
+            videos
+              .filter((item) => {
+                if (!searchText) return true;
+                if (item.fileName.toLowerCase().includes(searchText)) {
+                  return true;
+                }
+              })
+              .map((data) => (
+                <Col
+                  md="6"
+                  key={data._id}
+                  className="d-flex justify-content-center p-0"
                 >
-                  <div className={style.title}>{data.fileName}</div>
-                  <div>
-                    <img src={play} alt="playBtn" />
+                  <div
+                    className={style.videoCard}
+                    onClick={() =>
+                      handleCurrentVideo({
+                        location: data.location,
+                        name: data.fileName,
+                      })
+                    }
+                  >
+                    <div className={style.title}>{data.fileName}</div>
+                    <div>
+                      <img src={play} alt="playBtn" />
+                    </div>
                   </div>
-                </div>
-              </Col>
-            ))}
-      </Row>
+                </Col>
+              ))}
+        </Row>
+        </>
+      ) : (
+        <div className="text-center my-4">No videos to display</div>
+      )}
     </>
   );
 };

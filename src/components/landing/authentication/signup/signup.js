@@ -6,6 +6,7 @@ import urls from "../../../shared/urls";
 import axios from "axios";
 import style from "./signup.module.css";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [currentStage, setCurrentStage] = useState(0);
@@ -61,10 +62,13 @@ const SignUp = () => {
         });
         if (res.data) {
           setCurrentStage(1);
+          toast.success("Please check your email for OTP");
         }
       } catch (error) {
-        console.log(error);
-        console.log(error.response.data.message);
+        if (error && error.response.data) {
+          console.log(error.response.data.message);
+          toast.error(error.response.data.message);
+        }
       }
     } else if (currentStage === 1) {
       try {
@@ -80,12 +84,15 @@ const SignUp = () => {
               return asyncCookieStorage.getItem("auth");
             })
             .then(function (value) {
-              console.log("Value has been set to:", value);
+              toast.success("Welcome !");
               window.location.href = "/";
             });
         }
       } catch (error) {
-        console.log(error.response.data.message);
+        if (error && error.response.data) {
+          console.log(error.response.data.message);
+          toast.error(error.response.data.message);
+        }
       }
     }
   };
