@@ -12,32 +12,14 @@ import {
 import play from "../../../assets/images/play.svg";
 import search from "../../../assets/images/search.svg";
 import style from "./videoList.module.css";
-const VideoList = () => {
-  const [videos, setVideos] = useState(null);
-  const [currentVideo, setCurrentVideo] = useState(null);
+const VideoList = ({ videos }) => {
+  const [currentVideo, setCurrentVideo] = useState({
+    location: videos[0].location,
+    name: videos[0].fileName,
+  });
   const [searchText, setSearchText] = useState("");
 
   const videoRef = useRef();
-
-  const fetchAllVideos = async () => {
-    try {
-      const res = await axios.get(urls.video.all);
-      if (res.data) {
-        setVideos(res.data.videos);
-        setCurrentVideo({
-          location: res.data.videos[0].location,
-          name: res.data.videos[0].fileName,
-        });
-        console.log(res.data.videos);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchAllVideos();
-  }, []);
 
   const handleCurrentVideo = ({ location, name }) => {
     setCurrentVideo({

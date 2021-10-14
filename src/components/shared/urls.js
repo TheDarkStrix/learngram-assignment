@@ -7,5 +7,6 @@ export default {
   },
   video: {
     all: `/video/videos`,
+    uploadVideo: `/video/upload`,
   },
 };
