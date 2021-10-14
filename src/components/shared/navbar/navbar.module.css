@@ -6,4 +6,9 @@
   font-weight: 700;
   font-size: 1.2em;
   border-bottom: 1px solid lightgray;
+  justify-content: space-between;
+}
+
+.logout {
+  cursor: pointer;
 }

@@ -3,7 +3,7 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 
 function ProtectedRoute({ component: Component, ...restOfProps }) {
-  const isAuthenticated = localStorage.getItem("auth") ? true : false;
+  const isAuthenticated = Cookies.get("auth") ? true : false;
   console.log("this", isAuthenticated);
 
   return (

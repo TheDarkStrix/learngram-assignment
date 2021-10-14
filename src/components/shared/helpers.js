@@ -5,7 +5,7 @@ export function saveAuthInfo(authInfo) {
 }
 
 export function getAuthInfo() {
-  const authInfo = localStorage.getItem("auth");
+  const authInfo = Cookies.get("auth");
   console.log(authInfo);
   return authInfo;
 }

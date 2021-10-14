@@ -11,14 +11,14 @@ import Cookies from "js-cookie";
 const Login = () => {
   const history = useHistory();
 
-  const asyncLocalStorage = {
+  const asyncCookieStorage = {
     setItem: async function (key, value) {
       await Promise.resolve();
-      localStorage.setItem(key, value);
+      Cookies.set(key, value);
     },
     getItem: async function (key) {
       await Promise.resolve();
-      return localStorage.getItem(key);
+      return Cookies.get(key);
     },
   };
 
@@ -48,16 +48,14 @@ const Login = () => {
       if (res.data) {
         //await saveAuthInfo(res.data.jwt);//
         // Cookies.set("auth", res.data.jwt );
-        asyncLocalStorage
+        asyncCookieStorage
           .setItem("auth", res.data.jwt)
           .then(function () {
-            return asyncLocalStorage.getItem("auth");
+            return asyncCookieStorage.getItem("auth");
           })
           .then(function (value) {
             console.log("Value has been set to:", value);
-            setTimeout(function () {
-              history.push("/");
-            }, 1000);
+            window.location.href = "/";
           });
       }
     } catch (error) {
