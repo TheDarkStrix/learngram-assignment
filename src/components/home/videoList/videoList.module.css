@@ -1,0 +1,38 @@
+.videoCard {
+  background: #ebebeb;
+  padding: 1em;
+  margin: 1em;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+.videoCard img {
+  width: 50px;
+}
+
+.title {
+  font-weight: 600;
+  color: var(--blue);
+  margin-bottom: 1em;
+}
+
+.groupText {
+  background-color: white !important;
+  border-left: 0 !important;
+  border-radius: 0.25rem;
+  border-top: 1px solid var(--darkBlue) !important;
+  border-right: 1px solid var(--darkBlue) !important;
+  border-bottom: 1px solid var(--darkBlue) !important;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.searchInput {
+  border-right: 0 !important;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}

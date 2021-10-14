@@ -5,8 +5,9 @@ export function saveAuthInfo(authInfo) {
 }
 
 export function getAuthInfo() {
-  const authInfo = Cookies.get("auth");
-  return authInfo ? authInfo : authInfo;
+  const authInfo = localStorage.getItem("auth");
+  console.log(authInfo);
+  return authInfo;
 }
 
 export function clearAuthInfo() {

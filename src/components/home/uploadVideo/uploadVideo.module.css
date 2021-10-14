@@ -1,0 +1,9 @@
+.blueBtn {
+  background: var(--blue);
+  color: white;
+  border: 0;
+}
+
+.uploadContainer {
+  margin: 4em 0;
+}

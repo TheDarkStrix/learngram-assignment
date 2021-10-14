@@ -11,7 +11,7 @@ const App = () => {
   Axios.interceptors.request.use((request) => {
     const authInfo = getAuthInfo();
     if (authInfo) {
-      request.headers["Authorization"] = `Bearer ${authInfo.access_token}`;
+      request.headers["Authorization"] = `Bearer ${authInfo}`;
     }
 
     return request;

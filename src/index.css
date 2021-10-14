@@ -4,3 +4,7 @@
   --darkBlue: #0025eb;
   --blue: #4c67f8;
 }
+
+.form-control {
+  border: 1px solid var(--darkBlue);
+}

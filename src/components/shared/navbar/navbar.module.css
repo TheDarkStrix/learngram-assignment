@@ -1,0 +1,9 @@
+.navbarContainer {
+  padding: 1em 3em;
+  display: flex;
+  align-items: center;
+  color: var(--blue);
+  font-weight: 700;
+  font-size: 1.2em;
+  border-bottom: 1px solid lightgray;
+}

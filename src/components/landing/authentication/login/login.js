@@ -3,9 +3,25 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import urls from "../../../shared/urls";
 import axios from "axios";
+import style from "./login.module.css";
 import { saveAuthInfo } from "../../../shared/helpers";
+import { useHistory } from "react-router";
+import Cookies from "js-cookie";
 
 const Login = () => {
+  const history = useHistory();
+
+  const asyncLocalStorage = {
+    setItem: async function (key, value) {
+      await Promise.resolve();
+      localStorage.setItem(key, value);
+    },
+    getItem: async function (key) {
+      await Promise.resolve();
+      return localStorage.getItem(key);
+    },
+  };
+
   const initialValues = {
     email: "",
     password: "",
@@ -30,7 +46,19 @@ const Login = () => {
         password: values.password,
       });
       if (res.data) {
-        saveAuthInfo(res.data.jwt);
+        //await saveAuthInfo(res.data.jwt);//
+        // Cookies.set("auth", res.data.jwt );
+        asyncLocalStorage
+          .setItem("auth", res.data.jwt)
+          .then(function () {
+            return asyncLocalStorage.getItem("auth");
+          })
+          .then(function (value) {
+            console.log("Value has been set to:", value);
+            setTimeout(function () {
+              history.push("/");
+            }, 1000);
+          });
       }
     } catch (error) {
       console.log(error);
@@ -40,7 +68,7 @@ const Login = () => {
   return (
     <>
       <Form onSubmit={formik.handleSubmit}>
-        <FormGroup>
+        <FormGroup className="mb-3">
           <Label for="exampleEmail">Email</Label>
           <Input
             type="email"
@@ -52,7 +80,7 @@ const Login = () => {
             invalid={formik.errors.email}
           />
         </FormGroup>
-        <FormGroup>
+        <FormGroup className="mb-3">
           <Label for="examplePassword">Password</Label>
           <Input
             type="password"
@@ -64,7 +92,11 @@ const Login = () => {
             invalid={formik.errors.password}
           />
         </FormGroup>
-        <Button>Submit</Button>
+        <div className="d-flex justify-content-center">
+          <button className={["text-uppercase", style.submitBtn].join(" ")}>
+            login
+          </button>
+        </div>
       </Form>
     </>
   );

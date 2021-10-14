@@ -3,4 +3,7 @@ export default {
   auth: {
     login: `/user/login`,
   },
+  video: {
+    all: `/video/videos`,
+  },
 };
