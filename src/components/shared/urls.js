@@ -2,6 +2,8 @@
 export default {
   auth: {
     login: `/user/login`,
+    signup: `/user/signup`,
+    verifyOTP: `/user/verifyotp`,
   },
   video: {
     all: `/video/videos`,
