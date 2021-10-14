@@ -2,6 +2,9 @@ import Landing from "./components/landing/landing";
 import Axios from "axios";
 import { getAuthInfo } from "./components/shared/helpers";
 import { BASE_URL } from "./components/shared/constants";
+import { BrowserRouter, Route } from "react-router-dom";
+import ProtectedRoute from "./components/layout/projectedRoutes";
+import Home from "./components/home/home";
 const App = () => {
   Axios.defaults.baseURL = `${BASE_URL}`;
 
@@ -36,7 +39,10 @@ const App = () => {
 
   return (
     <>
-      <Landing />
+      <BrowserRouter>
+        <Route exact path="/landing" component={Landing} />
+        <ProtectedRoute exact path="/" component={Home} />
+      </BrowserRouter>
     </>
   );
 };
