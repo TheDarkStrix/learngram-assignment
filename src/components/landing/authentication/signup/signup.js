@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -8,8 +8,19 @@ import style from "./signup.module.css";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
+import wrong from "../../../../assets/images/close.svg";
+import correct from "../../../../assets/images/tick.svg";
+
+const indicator = {
+  smallLetter: false,
+  capitalLetter: false,
+  numeric: false,
+  validLength: false,
+};
+
 const SignUp = () => {
   const [currentStage, setCurrentStage] = useState(0);
+  const [passwordIndicator, setPasswordIndicator] = useState(indicator);
 
   const asyncCookieStorage = {
     setItem: async function (key, value) {
@@ -97,6 +108,49 @@ const SignUp = () => {
     }
   };
 
+  const handlePassword = (event) => {
+    console.log(event.target.value);
+
+    // Check for digits
+    if (/\d/.test(event.target.value)) {
+      if (passwordIndicator.numeric !== true) passwordIndicator.numeric = true;
+    } else {
+      if (passwordIndicator.numeric !== false)
+        passwordIndicator.numeric = false;
+    }
+
+    // check for Capital
+    if (/[A-Z]/.test(event.target.value)) {
+      if (passwordIndicator.capitalLetter !== true)
+        passwordIndicator.capitalLetter = true;
+    } else {
+      if (passwordIndicator.capitalLetter !== false)
+        passwordIndicator.capitalLetter = false;
+    }
+
+    // check for small
+    if (/[a-z]/.test(event.target.value)) {
+      if (passwordIndicator.smallLetter !== true)
+        passwordIndicator.smallLetter = true;
+    } else {
+      if (passwordIndicator.smallLetter !== false)
+        passwordIndicator.smallLetter = false;
+    }
+
+    // check length
+
+    if (event.target.value.length > 7) {
+      if (passwordIndicator.validLength !== true)
+        passwordIndicator.validLength = true;
+    } else {
+      if (passwordIndicator.validLength !== false)
+        passwordIndicator.validLength = false;
+    }
+
+    // setPasswordIndicator();
+    formik.handleChange(event);
+  };
+
   return (
     <>
       <Form onSubmit={formik.handleSubmit}>
@@ -119,10 +173,60 @@ const SignUp = () => {
             name="password"
             id="password"
             placeholder="Enter password"
-            onChange={formik.handleChange}
+            onChange={(e) => handlePassword(e)}
             value={formik.values.password}
             invalid={formik.errors.password && formik.touched.password}
           />
+          {currentStage === 0 ? (
+            <div className={style.indicatorContainer}>
+              <div>
+                <span>
+                  <img
+                    className={style.indicatorIcons}
+                    src={passwordIndicator.validLength ? correct : wrong}
+                    width="20"
+                    alt="pass_indicator"
+                  />
+                </span>
+                <span>Password should be min 8 chars</span>
+              </div>
+              <div>
+                <span>
+                  <img
+                    className={style.indicatorIcons}
+                    src={passwordIndicator.capitalLetter ? correct : wrong}
+                    width="20"
+                    alt="pass_indicator"
+                  />
+                </span>
+                <span>At least 1 uppercase letter [A-Z]</span>
+              </div>
+              <div>
+                <span>
+                  <img
+                    className={style.indicatorIcons}
+                    src={passwordIndicator.smallLetter ? correct : wrong}
+                    width="20"
+                    alt="pass_indicator"
+                  />
+                </span>
+                <span>At least 1 lowercase letter [a-z]</span>
+              </div>
+              <div>
+                <span>
+                  <img
+                    className={style.indicatorIcons}
+                    src={passwordIndicator.numeric ? correct : wrong}
+                    width="20"
+                    alt="pass_indicator"
+                  />
+                </span>
+                <span>At least 1 numeric char [0-9]</span>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </FormGroup>
         {currentStage === 1 ? (
           <FormGroup className="mb-3">
