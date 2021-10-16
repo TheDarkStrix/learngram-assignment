@@ -1,10 +1,10 @@
 import Landing from "./components/landing/landing";
 import Axios from "axios";
-import { getAuthInfo } from "./components/shared/helpers";
+import { clearAuthInfo, getAuthInfo } from "./components/shared/helpers";
 import { BASE_URL } from "./components/shared/constants";
 import { BrowserRouter, Route } from "react-router-dom";
 import ProtectedRoute from "./components/layout/projectedRoutes";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./components/home/home";
 const App = () => {
@@ -27,9 +27,11 @@ const App = () => {
       }
       if (error.response.status === 401) {
         // Refresh token code
-
-        // Reject the current request while the token refreshes
-        return Promise.reject(error);
+        // if 401 is detected just redirect to login page
+        clearAuthInfo();
+        setTimeout(() => {
+          window.location.href = "/landing";
+        }, 2000);
       } else {
         return Promise.reject(error);
       }
